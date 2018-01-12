@@ -1,20 +1,19 @@
 #include "HMI_app.h"
 #include "ssd1289.h"
-#include "gui_system.h"
-#include "gui.h"
+#include "uG_basic.h"
 
 void HMI_app(void* arg)
 {
 	rt_hw_lcd_init();
-	rt_device_t lcd;
-	lcd = rt_device_find("lcd");
-	if(lcd != RT_NULL)
+	rt_device_t lcd_device;
+	lcd_device = rt_device_find("lcd");
+	struct uG_object uGui;
+	if(lcd_device != RT_NULL)
 	{
-		rt_device_open(lcd, RT_DEVICE_FLAG_RDWR);
-		UG_GUI _gui;
-		_gui.x_dim = 240;
-		_gui.y_dim = 320;
+		rt_device_open(lcd_device, RT_DEVICE_FLAG_RDWR);
+		uG_init(&uGui, (void*)rt_graphix_ops(lcd_device));
 	}
+	uG_set_pixel(0xFFFF, 0, 0);
 	while(1)
 	{
 		rt_thread_delay(20);

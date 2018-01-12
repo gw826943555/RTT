@@ -10,8 +10,9 @@
       <TargetName>rtthread-stm32</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pArmCC>5060422::V5.06 update 4 (build 422)::ARMCC</pArmCC>
-      <pCCUsed>5060422::V5.06 update 4 (build 422)::ARMCC</pCCUsed>
+      <pArmCC>5060528::V5.06 update 5 (build 528)::ARMCC</pArmCC>
+      <pCCUsed>5060528::V5.06 update 5 (build 528)::ARMCC</pCCUsed>
+      <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>STM32F103ZE</Device>
@@ -896,11 +897,6 @@
           <GroupName>gui</GroupName>
           <Files>
             <File>
-              <FileName>gui_system.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\gui\gui_system.c</FilePath>
-            </File>
-            <File>
               <FileName>gui.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\gui\gui.c</FilePath>
@@ -909,6 +905,11 @@
               <FileName>font.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\gui\font.c</FilePath>
+            </File>
+            <File>
+              <FileName>uG_basic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\uG_basic.c</FilePath>
             </File>
           </Files>
         </Group>
