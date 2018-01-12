@@ -336,7 +336,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F103xE, USE_HAL_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>drivers;applications;.;Libraries/CMSIS/Device/ST/STM32F1xx/Include;Libraries/STM32F1xx_HAL_Driver/Inc;Libraries/CMSIS/Include;../../include;../../libcpu/arm/cortex-m3;../../libcpu/arm/common;../../components/drivers/include;../../components/drivers/include;../../components/drivers/include;../../components/finsh</IncludePath>
+              <IncludePath>drivers;applications;.;Libraries/CMSIS/Device/ST/STM32F1xx/Include;Libraries/STM32F1xx_HAL_Driver/Inc;Libraries/CMSIS/Include;../../include;../../libcpu/arm/cortex-m3;../../libcpu/arm/common;../../components/drivers/include;../../components/drivers/include;../../components/drivers/include;../../components/finsh;.\gui</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -889,6 +889,26 @@
               <FileName>msh_file.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../components/finsh/msh_file.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>gui</GroupName>
+          <Files>
+            <File>
+              <FileName>gui_system.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\gui_system.c</FilePath>
+            </File>
+            <File>
+              <FileName>gui.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\gui.c</FilePath>
+            </File>
+            <File>
+              <FileName>font.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\font.c</FilePath>
             </File>
           </Files>
         </Group>

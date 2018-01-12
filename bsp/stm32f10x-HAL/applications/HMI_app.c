@@ -1,5 +1,7 @@
 #include "HMI_app.h"
 #include "ssd1289.h"
+#include "gui_system.h"
+#include "gui.h"
 
 void HMI_app(void* arg)
 {
@@ -9,9 +11,10 @@ void HMI_app(void* arg)
 	if(lcd != RT_NULL)
 	{
 		rt_device_open(lcd, RT_DEVICE_FLAG_RDWR);
+		UG_GUI _gui;
+		_gui.x_dim = 240;
+		_gui.y_dim = 320;
 	}
-	uint16_t color = Blue;
-	lcd->user_data;
 	while(1)
 	{
 		rt_thread_delay(20);
