@@ -3,6 +3,8 @@
 
 #include <rtthread.h>
 
+#include "ugui_basic.h"
+
 // Compatible list:
 // ssd1289
 
@@ -40,9 +42,15 @@
 #define BPP             16                  /* Bits per pixel                     */
 #define BYPP            ((BPP+7)/8)         /* Bytes per pixel                    */
 
+extern struct ugui_graphic_ops ssd1289_graphic_ops;
+
 void ssd1289_init(void);
 
 void rt_hw_lcd_init(void);
+
+void ssd1289_lcd_set_pixel(uint16_t pixel, uint16_t x, uint16_t y);
+
+void ssd1289_lcd_get_pixel(uint16_t* pixel, uint16_t x, uint16_t y);
 
 void ssd1289_lcd_draw_hline(const char* pixel, int x1, int x2, int y);
 

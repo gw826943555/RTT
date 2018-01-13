@@ -323,7 +323,7 @@ void ssd1289_init(void)
 }
 
 /*  设置像素点 颜色,X,Y */
-void ssd1289_lcd_set_pixel(const char* pixel, int x, int y)
+void _ssd1289_lcd_set_pixel(const char* pixel, int x, int y)
 {
     lcd_SetCursor(x,y);
 
@@ -331,10 +331,25 @@ void ssd1289_lcd_set_pixel(const char* pixel, int x, int y)
     write_data(*(rt_uint16_t*)pixel);
 }
 
+/*  设置像素点 颜色,X,Y */
+void ssd1289_lcd_set_pixel(uint16_t pixel, uint16_t x, uint16_t y)
+{
+    lcd_SetCursor(x,y);
+
+    rw_data_prepare();
+    write_data(pixel);
+}
+
 /* 获取像素点颜色 */
-void ssd1289_lcd_get_pixel(char* pixel, int x, int y)
+void _ssd1289_lcd_get_pixel(char* pixel, int x, int y)
 {
 	*(rt_uint16_t*)pixel = lcd_read_gram(x, y);
+}
+
+/* 获取像素点颜色 */
+void ssd1289_lcd_get_pixel(uint16_t* pixel, uint16_t x, uint16_t y)
+{
+	*pixel = lcd_read_gram(x, y);
 }
 
 /* 画水平线 */
@@ -388,8 +403,8 @@ void ssd1289_lcd_blit_line(const char* pixels, int x, int y, rt_size_t size)
 
 struct rt_device_graphic_ops ssd1289_ops =
 {
-	ssd1289_lcd_set_pixel,
-	ssd1289_lcd_get_pixel,
+	_ssd1289_lcd_set_pixel,
+	_ssd1289_lcd_get_pixel,
 	ssd1289_lcd_draw_hline,
 	ssd1289_lcd_draw_vline,
 	ssd1289_lcd_blit_line
@@ -459,4 +474,10 @@ void rt_hw_lcd_init(void)
 	rt_device_register(&_lcd_device, "lcd",
 		RT_DEVICE_FLAG_RDWR | RT_DEVICE_FLAG_STANDALONE);
 }
+
+struct ugui_graphic_ops ssd1289_graphic_ops =
+{
+	ssd1289_lcd_set_pixel,
+	ssd1289_lcd_get_pixel,
+};
 

@@ -15,14 +15,14 @@
 *  See the License for the specific language governing permissions and       *
 *  limitations under the License.                                            *
 *                                                                            *
-*  @file     	uG_basic.c                                                     *
-*  @brief    	This file provides basic functions for the uGUI like init,     *
-*						  set_pixel,etc.                                                 *
+*  @file     	ugui_basic.h                                                   *
+*  @brief    	This file is the head file of ugui_basic.c									   *
+*						  							                                                 *
 *  @author   	William Kwok                                                   *
 *  @email    	gw826943555@qq.com                                             *
 *  @version   0.0.1                                                          *
 *  @date     	2018/01/12                                                     *
-*  @license  GNU General Public License (GPL)                                *
+*  @license   GNU General Public License (GPL)                                *
 *                                                                            *
 *----------------------------------------------------------------------------*
 *  Remark         : Description                                              *
@@ -34,23 +34,58 @@
 *----------------------------------------------------------------------------*
 *                                                                            *
 *****************************************************************************/
+#ifndef __UGUI_BASIC_H__
+#define __UGUI_BASIC_H__
+#include "stdint.h"
+#include "color.h"
+#include "font.h"
 
-#include "uG_basic.h"
-
-static uG_object_p uGui;
-
-int8_t uG_init(uG_object_p object, void* argu)
+struct ugui_graphic_ops
 {
-	uGui = object;
-	if(argu == 0)
-	{
-		return -1;
-	}
-	uGui->set_pixel = argu;
-	return 0;
-}
+    void (*set_pixel) (uint16_t , uint16_t , uint16_t );
+    void (*get_pixel) (uint16_t *pixel, uint16_t x, uint16_t y);
 
-void uG_set_pixel(uint16_t color, uint16_t pos_x, uint16_t pos_y)
+    void (*draw_hline)(const char *pixel, int x1, int x2, int y);
+    void (*draw_vline)(const char *pixel, int x, int y1, int y2);
+
+    void (*blit_line) (const char *pixel, int x, int y, int size);
+};
+#define ugui_graphix_ops(device)          ((struct ugui_graphic_ops *)(device->user_data))
+
+struct ugui_object
 {
-	uGui->set_pixel((const char*)(&color), pos_x, pos_y);
-}
+	uint16_t dim_x;
+	uint16_t dim_y;
+	
+	uint16_t pos_x;
+	uint16_t pos_y;
+	
+	uint16_t fore_color;
+	uint16_t back_color;
+	
+	ugui_font_t font;
+	
+	struct ugui_graphic_ops* ugui_ops;
+};
+
+typedef struct ugui_object* ugui_object_p;
+
+int ugui_init(ugui_object_p object, struct ugui_graphic_ops* argu);
+void ugui_set_pixel(ugui_color color, uint16_t pos_x, uint16_t pos_y);
+uint16_t ugui_get_pixel(uint16_t pos_x, uint16_t pos_y);
+int ugui_select_gui(ugui_object_p gui_p);
+int ugui_select_font(const unsigned char* font);
+void ugui_fill_screen(ugui_color color);
+void ugui_fill_frame(ugui_color color, uint16_t pos_x1, uint16_t pos_y1, uint16_t pos_x2, uint16_t pos_y2);
+void ugui_fill_round_frame(ugui_color color, uint16_t pos_x1, uint16_t pos_y1, uint16_t pos_x2, uint16_t pos_y2, uint16_t r);
+void ugui_draw_line(ugui_color color, uint16_t pos_x1, uint16_t pos_y1, uint16_t pos_x2, uint16_t pos_y2);
+void ugui_draw_arc(ugui_color color, uint16_t pos_x, uint16_t pos_y, uint16_t r, uint8_t sector);
+void ugui_draw_circle(ugui_color color, uint16_t pos_x, uint16_t pos_y, uint16_t r);
+void ugui_fill_circle(ugui_color color, uint16_t pos_x, uint16_t pos_y, uint16_t r);
+void ugui_draw_mesh(ugui_color color, uint16_t pos_x1, uint16_t pos_y1, uint16_t pos_x2, uint16_t pos_y2);
+void ugui_draw_frame(ugui_color color, int16_t pos_x1, int16_t pos_y1, int16_t pos_x2, int16_t pos_y2);
+void ugui_draw_round_frame(ugui_color color, int16_t pos_x1, int16_t pos_y1, int16_t pos_x2, int16_t pos_y2, int16_t r);
+void ugui_put_char(char c, ugui_color f_color, ugui_color b_color,int16_t pos_x, int16_t pos_y, ugui_font_t *font);
+
+
+#endif

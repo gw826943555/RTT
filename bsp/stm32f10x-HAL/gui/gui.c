@@ -495,7 +495,7 @@ void UG_DrawLine( UG_S16 x1, UG_S16 y1, UG_S16 x2, UG_S16 y2, UG_COLOR c )
          drawy += sgndy;
          gui->pset((const char*)(&c), drawx,drawy);
       }
-   }  
+   }
 }
 
 void UG_PutString( UG_S16 x, UG_S16 y, char* str )
