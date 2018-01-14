@@ -63,7 +63,7 @@ struct ugui_object
 	uint16_t fore_color;
 	uint16_t back_color;
 	
-	ugui_font_t font;
+	struct ugui_font* font;
 	
 	struct ugui_graphic_ops* ugui_ops;
 };
@@ -85,7 +85,7 @@ void ugui_fill_circle(ugui_color color, uint16_t pos_x, uint16_t pos_y, uint16_t
 void ugui_draw_mesh(ugui_color color, uint16_t pos_x1, uint16_t pos_y1, uint16_t pos_x2, uint16_t pos_y2);
 void ugui_draw_frame(ugui_color color, int16_t pos_x1, int16_t pos_y1, int16_t pos_x2, int16_t pos_y2);
 void ugui_draw_round_frame(ugui_color color, int16_t pos_x1, int16_t pos_y1, int16_t pos_x2, int16_t pos_y2, int16_t r);
-void ugui_put_char(char c, ugui_color f_color, ugui_color b_color,int16_t pos_x, int16_t pos_y, ugui_font_t *font);
+void ugui_put_char(char c, ugui_color color,int16_t pos_x, int16_t pos_y);
 
 
 #endif

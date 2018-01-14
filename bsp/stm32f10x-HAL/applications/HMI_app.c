@@ -20,7 +20,7 @@ void HMI_app(void* arg)
 	}
 	ugui_set_pixel(0x5555, 0, 0);
 	ugui_draw_mesh(C_BLACK, 50, 50, 100, 100);
-	ugui_font_ascii16_put_char('B',C_BLUE, 0, 0);
+	ugui_put_char('A', C_BLUE, 0, 0);
 	while(1)
 	{
 		rt_thread_delay(20);

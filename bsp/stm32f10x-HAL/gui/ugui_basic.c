@@ -48,6 +48,7 @@ int ugui_init(ugui_object_p object, struct ugui_graphic_ops* argu)
 	}
 //	ugui->font.p = font_8x12;
 	ugui->ugui_ops = argu;
+	ugui->font = ugui_get_font(16);
 	return 0;
 }
 
@@ -310,71 +311,7 @@ void ugui_draw_mesh(ugui_color color, uint16_t pos_x1, uint16_t pos_y1, uint16_t
 	}
 }
 
-void ugui_put_char(char c, ugui_color f_color, ugui_color b_color,int16_t pos_x, int16_t pos_y, ugui_font_t *font)
+void ugui_put_char(char c, ugui_color color,int16_t pos_x, int16_t pos_y)
 {
-	int16_t i,j,k,xo,yo,_c,bn,actual_char_width;
-	uint8_t b,bt;
-	uint32_t index;
-	ugui_color color;
-
-	bt = (uint8_t)c;
-
-	if (bt < font->start_char || bt > font->end_char) return;
-
-	yo = pos_y;
-	bn = font->char_width;
-	if ( !bn ) return;
-	bn >>= 3;
-	if ( font->char_width % 8 ) bn++;
-	actual_char_width = (font->widths ? font->widths[bt - font->start_char] : font->char_width);
-	{
-	 /*Not accelerated output*/
-	 if (font->font_type == FONT_TYPE_1BPP)
-	 {
-			 index = (bt - font->start_char)* font->char_height * bn;
-			 for( j=0;j<font->char_height;j++ )
-			 {
-				 xo = pos_x;
-				 c=actual_char_width;
-				 for( i=0;i<bn;i++ )
-				 {
-					 b = font->p[index++];
-					 for( k=0;(k<8) && _c;k++ )
-					 {
-						 if( b & 0x01 )
-						 {
-								ugui->ugui_ops->set_pixel(f_color,xo,yo);
-						 }
-						 else
-						 {
-								ugui->ugui_ops->set_pixel(f_color,xo,yo);
-						 }
-						 b >>= 1;
-						 xo++;
-						 _c--;
-					 }
-				 }
-				 yo++;
-			 }
-		}
-		else if (font->font_type == FONT_TYPE_8BPP)
-		{
-			index = (bt - font->start_char)* font->char_height * font->char_width;
-			for( j=0;j<font->char_height;j++ )
-			{
-				xo = pos_x;
-				for( i=0;i<actual_char_width;i++ )
-				{
-					 b = font->p[index++];
-					 color = (((f_color & 0xFF) * b + (f_color & 0xFF) * (256 - b)) >> 8) & 0xFF |//Blue component
-									 (((f_color & 0xFF00) * b + (f_color & 0xFF00) * (256 - b)) >> 8)  & 0xFF00|//Green component
-									 (((f_color & 0xFF0000) * b + (f_color & 0xFF0000) * (256 - b)) >> 8) & 0xFF0000; //Red component
-					 ugui->ugui_ops->set_pixel(color,xo,yo);
-					 xo++;
-				}
-				index += font->char_width - actual_char_width;
-				yo++;
-			}
-		}
-	}
+	ugui->font->ugui_put_char(c, color, pos_x, pos_y);
 }
