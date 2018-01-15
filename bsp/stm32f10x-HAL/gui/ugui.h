@@ -37,24 +37,12 @@
 #ifndef __UG_BASIC_H__
 #define __UG_BASIC_H__
 #include "stdint.h"
+#include "ugui_window.h"
 
-struct uG_object
-{
-	uint16_t dim_x;
-	uint16_t dim_y;
-	
-	uint16_t pos_x;
-	uint16_t pos_y;
-	
-	uint16_t fore_color;
-	uint16_t back_color;
-	
-	void (*set_pixel) (const char *pixel, int x, int y);
-};
+#define			UGUI_MAX_WINDOWS								8
 
-typedef struct uG_object* uG_object_p;
+void ugui_update(void);
+void ugui_register_window(ugui_window_p window);
 
-int8_t uG_init(uG_object_p object, void* argu);
-void uG_set_pixel(uint16_t color, uint16_t pos_x, uint16_t pos_y);
 
 #endif

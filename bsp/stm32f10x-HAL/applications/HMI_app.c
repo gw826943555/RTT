@@ -2,6 +2,7 @@
 #include "ssd1289.h"
 #include "ugui_basic.h"
 #include "ugui_font_ascii16.h"
+#include "font_chs12.h"
 
 void HMI_app(void* arg)
 {
@@ -11,16 +12,25 @@ void HMI_app(void* arg)
 	
 	ugui_object_p ugui;
 	ugui = rt_malloc(sizeof(struct ugui_object));
-	ugui->dim_x = 240;
-	ugui->dim_y = 320;
+	ugui->dim_x = 129;
+	ugui->dim_y = 65;
 	if(lcd_device != RT_NULL)
 	{
 		rt_device_open(lcd_device, RT_DEVICE_FLAG_RDWR);
 		ugui_init(ugui, &ssd1289_graphic_ops);
 	}
-	ugui_set_pixel(0x5555, 0, 0);
-	ugui_draw_mesh(C_BLACK, 50, 50, 100, 100);
-	ugui_put_char('A', C_BLUE, 0, 0);
+	
+	ugui_fill_screen(Black);
+	ugui_draw_line(C_WHITE, 128, 0, 128, 64);
+	ugui_draw_line(C_WHITE, 0, 64, 128, 64);
+//	ugui->font->ugui_put_char('a', C_WHITE, 0, 0);
+	
+	ugui_show_chs(0, C_WHITE, 0,0);
+	ugui_show_chs(1, C_WHITE, 12,0);
+	ugui_show_chs(2, C_WHITE, 24,0);
+	ugui_show_chs(3, C_WHITE, 36,0);
+	ugui_show_chs(4, C_WHITE, 48,0);
+	ugui_draw_circle(C_WHITE, 0, 0, 63);
 	while(1)
 	{
 		rt_thread_delay(20);

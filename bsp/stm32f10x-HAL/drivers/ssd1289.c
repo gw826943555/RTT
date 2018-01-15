@@ -319,7 +319,7 @@ void ssd1289_init(void)
 //    lcd_gram_test();
 
     //清屏
-    lcd_clear( Red );
+    lcd_clear( Black );
 }
 
 /*  设置像素点 颜色,X,Y */

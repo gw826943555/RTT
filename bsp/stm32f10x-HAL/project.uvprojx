@@ -836,11 +836,6 @@
           <GroupName>gui</GroupName>
           <Files>
             <File>
-              <FileName>gui.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\gui\gui.c</FilePath>
-            </File>
-            <File>
               <FileName>font.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\gui\font.c</FilePath>
@@ -859,6 +854,26 @@
               <FileName>ugui_font_ascii16.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\gui\ugui_font_ascii16.c</FilePath>
+            </File>
+            <File>
+              <FileName>font_chs12.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\font_chs12.c</FilePath>
+            </File>
+            <File>
+              <FileName>ugui_window.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\ugui_window.c</FilePath>
+            </File>
+            <File>
+              <FileName>color.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\gui\color.h</FilePath>
+            </File>
+            <File>
+              <FileName>ugui.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\gui\ugui.c</FilePath>
             </File>
           </Files>
         </Group>

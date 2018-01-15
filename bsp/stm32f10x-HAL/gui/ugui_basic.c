@@ -54,6 +54,8 @@ int ugui_init(ugui_object_p object, struct ugui_graphic_ops* argu)
 
 void ugui_set_pixel(ugui_color color, uint16_t pos_x, uint16_t pos_y)
 {
+	if(pos_x > ugui->dim_x) return;
+	if(pos_y > ugui->dim_y) return;
 	ugui->pos_x = pos_x;
 	ugui->pos_y = pos_y;
 	ugui->ugui_ops->set_pixel(color, pos_x, pos_y);
@@ -61,6 +63,8 @@ void ugui_set_pixel(ugui_color color, uint16_t pos_x, uint16_t pos_y)
 
 uint16_t ugui_get_pixel(uint16_t pos_x, uint16_t pos_y)
 {
+	if(pos_x > ugui->dim_x) return 0;
+	if(pos_y > ugui->dim_y) return 0;
 	uint16_t val;
 	ugui->ugui_ops->get_pixel(&val, pos_x, pos_y);
 	return val;
@@ -73,7 +77,7 @@ void ugui_fill_screen(ugui_color color)
 	{
 		for(x = 0; x < ugui->dim_x; x++)
 		{
-			ugui->ugui_ops->set_pixel(color, x, y);
+			ugui_set_pixel(color, x, y);
 		}
 	}
 }
@@ -98,7 +102,7 @@ void ugui_fill_frame(ugui_color color, uint16_t pos_x1, uint16_t pos_y1, uint16_
 	{
 		for( n = pos_x1; n <= pos_x2; n++ )
 		{
-			ugui->ugui_ops->set_pixel(color,n,m);
+			ugui_set_pixel(color,n,m);
 		}
 	}
 }
@@ -146,7 +150,7 @@ void ugui_draw_line(ugui_color color, uint16_t pos_x1, uint16_t pos_y1, uint16_t
 	drawx = pos_x1;
 	drawy = pos_y1;
 
-	ugui->ugui_ops->set_pixel(color, drawx,drawy);
+	ugui_set_pixel(color, drawx,drawy);
 
 	if( dxabs >= dyabs )
 	{
@@ -159,7 +163,7 @@ void ugui_draw_line(ugui_color color, uint16_t pos_x1, uint16_t pos_y1, uint16_t
 				drawy += sgndy;
 			}
 			drawx += sgndx;
-			ugui->ugui_ops->set_pixel(color, drawx,drawy);
+			ugui_set_pixel(color, drawx,drawy);
 		}
 	}
   else
@@ -173,9 +177,18 @@ void ugui_draw_line(ugui_color color, uint16_t pos_x1, uint16_t pos_y1, uint16_t
 					drawx += sgndx;
 			 }
 			 drawy += sgndy;
-			 ugui->ugui_ops->set_pixel(color, drawx,drawy);
+			 ugui_set_pixel(color, drawx,drawy);
 		}
   }
+}
+
+
+void ugui_draw_frame(ugui_color color, int16_t pos_x1, int16_t pos_y1, int16_t pos_x2, int16_t pos_y2)
+{
+	ugui_draw_line(color, pos_x1, pos_y1, pos_x2, pos_y1);
+	ugui_draw_line(color, pos_x2, pos_y1+1, pos_x2, pos_y2);
+	ugui_draw_line(color, pos_x1, pos_y2, pos_x2 -1, pos_y2);
+	ugui_draw_line(color, pos_x1, pos_y1+1, pos_x1, pos_y2-1);
 }
 
 void ugui_draw_arc(ugui_color color, uint16_t pos_x, uint16_t pos_y, uint16_t r, uint8_t sector)
@@ -230,14 +243,14 @@ void ugui_draw_circle(ugui_color color, uint16_t pos_x, uint16_t pos_y, uint16_t
 
 	while ( x >= y )
 	{
-		ugui->ugui_ops->set_pixel(color, pos_x - x, pos_y + y);
-		ugui->ugui_ops->set_pixel(color, pos_x - x, pos_y - y);
-		ugui->ugui_ops->set_pixel(color, pos_x + x, pos_y + y);
-		ugui->ugui_ops->set_pixel(color, pos_x + x, pos_y - y);
-		ugui->ugui_ops->set_pixel(color, pos_x - y, pos_y + x);
-		ugui->ugui_ops->set_pixel(color, pos_x - y, pos_y - x);
-		ugui->ugui_ops->set_pixel(color, pos_x + y, pos_y + x);
-		ugui->ugui_ops->set_pixel(color, pos_x + y, pos_y - x);
+		ugui_set_pixel(color, pos_x - x, pos_y + y);
+		ugui_set_pixel(color, pos_x - x, pos_y - y);
+		ugui_set_pixel(color, pos_x + x, pos_y + y);
+		ugui_set_pixel(color, pos_x + x, pos_y - y);
+		ugui_set_pixel(color, pos_x - y, pos_y + x);
+		ugui_set_pixel(color, pos_x - y, pos_y - x);
+		ugui_set_pixel(color, pos_x + y, pos_y + x);
+		ugui_set_pixel(color, pos_x + y, pos_y - x);
 
 		y++;
 		e += yd;
@@ -306,7 +319,7 @@ void ugui_draw_mesh(ugui_color color, uint16_t pos_x1, uint16_t pos_y1, uint16_t
 	{
 		for( n=pos_x1; n<=pos_x2; n+=2 )
 		{
-			ugui->ugui_ops->set_pixel(color,n,m);
+			ugui_set_pixel(color,n,m);
 		}
 	}
 }
