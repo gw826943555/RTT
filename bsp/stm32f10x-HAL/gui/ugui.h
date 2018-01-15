@@ -41,6 +41,7 @@
 
 #define			UGUI_MAX_WINDOWS								8
 
+void ugui_WM_init(void);
 void ugui_update(void);
 void ugui_register_window(ugui_window_p window);
 

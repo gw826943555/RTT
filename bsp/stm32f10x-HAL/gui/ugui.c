@@ -6,8 +6,9 @@ static struct
 	uint8_t count;
 } ugui_container;
 
-void ugui_window_update(ugui_window_p window)
+void ugui_WM_init()
 {
+	ugui_container.count =0;
 }
 
 void ugui_update()
@@ -18,7 +19,7 @@ void ugui_update()
 	}
 }
 
-void ugui_window_register(ugui_window_p window)
+void ugui_register_window(ugui_window_p window)
 {
 	if(ugui_container.count <UGUI_MAX_WINDOWS)
 	{

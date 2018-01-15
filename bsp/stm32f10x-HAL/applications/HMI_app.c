@@ -3,6 +3,7 @@
 #include "ugui_basic.h"
 #include "ugui_font_ascii16.h"
 #include "font_chs12.h"
+#include "ugui.h"
 
 void HMI_app(void* arg)
 {
@@ -23,16 +24,19 @@ void HMI_app(void* arg)
 	ugui_fill_screen(Black);
 	ugui_draw_line(C_WHITE, 128, 0, 128, 64);
 	ugui_draw_line(C_WHITE, 0, 64, 128, 64);
-//	ugui->font->ugui_put_char('a', C_WHITE, 0, 0);
 	
-	ugui_show_chs(0, C_WHITE, 0,0);
-	ugui_show_chs(1, C_WHITE, 12,0);
-	ugui_show_chs(2, C_WHITE, 24,0);
-	ugui_show_chs(3, C_WHITE, 36,0);
-	ugui_show_chs(4, C_WHITE, 48,0);
-	ugui_draw_circle(C_WHITE, 0, 0, 63);
+	ugui_window_t windows;
+	
+	ugui_window_set_pos(&windows, 0, 0);
+	ugui_window_set_size(&windows, 128, 64);
+	ugui_window_set_color(&windows, C_WHITE, C_WHITE);
+	
+	ugui_WM_init();
+	ugui_register_window(&windows);
+
 	while(1)
 	{
+		ugui_update();
 		rt_thread_delay(20);
 	}
 }
