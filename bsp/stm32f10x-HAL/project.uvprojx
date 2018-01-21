@@ -336,7 +336,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F103xE, USE_HAL_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>drivers;applications;.;Libraries/CMSIS/Device/ST/STM32F1xx/Include;Libraries/STM32F1xx_HAL_Driver/Inc;Libraries/CMSIS/Include;../../include;../../libcpu/arm/cortex-m3;../../libcpu/arm/common;../../components/drivers/include;../../components/drivers/include;../../components/drivers/include;../../components/finsh;.\gui</IncludePath>
+              <IncludePath>drivers;applications;.;Libraries/CMSIS/Device/ST/STM32F1xx/Include;Libraries/STM32F1xx_HAL_Driver/Inc;Libraries/CMSIS/Include;../../include;../../libcpu/arm/cortex-m3;../../libcpu/arm/common;../../components/drivers/include;../../components/finsh;.\applications\GUI\Core;.\applications\GUI;.\applications\GUI\ConvertColor</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -426,14 +426,9 @@
               <FilePath>.\applications\idle_app.c</FilePath>
             </File>
             <File>
-              <FileName>global_message.c</FileName>
+              <FileName>app_main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\applications\global_message.c</FilePath>
-            </File>
-            <File>
-              <FileName>HMI_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\applications\HMI_app.c</FilePath>
+              <FilePath>.\applications\app_main.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -833,47 +828,105 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>gui</GroupName>
+          <GroupName>GUI_AntiAlias</GroupName>
+        </Group>
+        <Group>
+          <GroupName>GUI_ConvertColor</GroupName>
           <Files>
             <File>
-              <FileName>font.c</FileName>
+              <FileName>LCDP565.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\gui\font.c</FilePath>
+              <FilePath>.\applications\GUI\ConvertColor\LCDP565.c</FilePath>
             </File>
             <File>
-              <FileName>ugui_basic.c</FileName>
+              <FileName>LCDPM565.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\gui\ugui_basic.c</FilePath>
+              <FilePath>.\applications\GUI\ConvertColor\LCDPM565.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>GUI_ConvertMono</GroupName>
+        </Group>
+        <Group>
+          <GroupName>GUI_Core</GroupName>
+          <Files>
+            <File>
+              <FileName>GUICore.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\applications\GUI\Core\GUICore.c</FilePath>
             </File>
             <File>
-              <FileName>ugui_font_asiic12.c</FileName>
+              <FileName>LCD.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\gui\ugui_font_asiic12.c</FilePath>
+              <FilePath>.\applications\GUI\Core\LCD.c</FilePath>
             </File>
             <File>
-              <FileName>ugui_font_ascii16.c</FileName>
+              <FileName>LCD_API.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\gui\ugui_font_ascii16.c</FilePath>
+              <FilePath>.\applications\GUI\Core\LCD_API.c</FilePath>
             </File>
             <File>
-              <FileName>font_chs12.c</FileName>
+              <FileName>LCD_L0_Generic.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\gui\font_chs12.c</FilePath>
+              <FilePath>.\applications\GUI\Core\LCD_L0_Generic.c</FilePath>
             </File>
             <File>
-              <FileName>ugui_window.c</FileName>
+              <FileName>GUI_Goto.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\gui\ugui_window.c</FilePath>
+              <FilePath>.\applications\GUI\Core\GUI_Goto.c</FilePath>
             </File>
             <File>
-              <FileName>color.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\gui\color.h</FilePath>
+              <FileName>GUI_InitLUT.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\applications\GUI\Core\GUI_InitLUT.c</FilePath>
             </File>
             <File>
-              <FileName>ugui.c</FileName>
+              <FileName>LCD_SetAPI.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\gui\ugui.c</FilePath>
+              <FilePath>.\applications\GUI\Core\LCD_SetAPI.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>GUI_Font</GroupName>
+          <Files>
+            <File>
+              <FileName>F6x8.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\applications\GUI\Font\F6x8.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>GUI_LCDDriver</GroupName>
+          <Files>
+            <File>
+              <FileName>LCDTemplate.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\applications\GUI\LCDDriver\LCDTemplate.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>GUI_MemDev</GroupName>
+        </Group>
+        <Group>
+          <GroupName>GUI_MultiLayer</GroupName>
+        </Group>
+        <Group>
+          <GroupName>GUI_Widget</GroupName>
+        </Group>
+        <Group>
+          <GroupName>GUI_WM</GroupName>
+        </Group>
+        <Group>
+          <GroupName>GUI_X</GroupName>
+          <Files>
+            <File>
+              <FileName>GUI_X.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\applications\GUI\X\GUI_X.c</FilePath>
             </File>
           </Files>
         </Group>

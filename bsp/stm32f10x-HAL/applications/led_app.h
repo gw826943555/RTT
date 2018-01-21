@@ -8,7 +8,7 @@
 #define LED_THREAD_STACK_SIZE 1024
 #define LED_THREAD_TIMESLICE 10
 
-extern void led_thread(void* parameter);
+void app_led_init(void* argu);
 
 #endif
 

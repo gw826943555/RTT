@@ -3,8 +3,6 @@
 
 #include <rtthread.h>
 
-#include "ugui_basic.h"
-
 // Compatible list:
 // ssd1289
 

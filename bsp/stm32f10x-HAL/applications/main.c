@@ -14,27 +14,13 @@
 #include <rtthread.h>
 #include "led_app.h"
 #include "idle_app.h"
-#include "HMI_app.h"
 
 int main(void)
 {
 	rt_thread_idle_sethook(idle_thread);
 	
   /* user app entry */
-	rt_thread_t tid1;
-	tid1 = rt_thread_create("Led Thread",
-													led_thread,
-													RT_NULL,
-													LED_THREAD_STACK_SIZE,
-													LED_THREAD_PRIORITY,
-													LED_THREAD_TIMESLICE);
-	
-	if(tid1 !=RT_NULL)
-	{
-		rt_thread_startup(tid1);
-	}
-	
-	HMI_app_init();
+	app_led_init(RT_NULL);
 	
   return 0;
 }

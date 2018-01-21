@@ -31,3 +31,19 @@ void led_thread(void* parameter)
 	}
 }
 
+void app_led_init(void* argu)
+{
+	rt_thread_t tid1;
+	tid1 = rt_thread_create("Led Thread",
+													led_thread,
+													RT_NULL,
+													LED_THREAD_STACK_SIZE,
+													LED_THREAD_PRIORITY,
+													LED_THREAD_TIMESLICE);
+	
+	if(tid1 !=RT_NULL)
+	{
+		rt_thread_startup(tid1);
+	}
+}
+

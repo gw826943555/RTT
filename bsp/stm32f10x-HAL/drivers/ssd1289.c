@@ -475,9 +475,4 @@ void rt_hw_lcd_init(void)
 		RT_DEVICE_FLAG_RDWR | RT_DEVICE_FLAG_STANDALONE);
 }
 
-struct ugui_graphic_ops ssd1289_graphic_ops =
-{
-	ssd1289_lcd_set_pixel,
-	ssd1289_lcd_get_pixel,
-};
 
