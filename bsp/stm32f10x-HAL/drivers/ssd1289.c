@@ -474,5 +474,6 @@ void rt_hw_lcd_init(void)
 	rt_device_register(&_lcd_device, "lcd",
 		RT_DEVICE_FLAG_RDWR | RT_DEVICE_FLAG_STANDALONE);
 }
+INIT_BOARD_EXPORT(rt_hw_lcd_init);
 
 

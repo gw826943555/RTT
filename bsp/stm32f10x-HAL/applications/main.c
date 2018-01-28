@@ -14,6 +14,8 @@
 #include <rtthread.h>
 #include "led_app.h"
 #include "idle_app.h"
+#include "gui.h"
+#include "app_main.h"
 
 int main(void)
 {
@@ -21,6 +23,6 @@ int main(void)
 	
   /* user app entry */
 	app_led_init(RT_NULL);
-	
+	app_main_init();
   return 0;
 }

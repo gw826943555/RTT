@@ -1,6 +1,6 @@
 /*
 *********************************************************************************************************
-*                                             uC/GUI V3.98
+*                                                uC/GUI
 *                        Universal graphic software for embedded applications
 *
 *                       (c) Copyright 2002, Micrium Inc., Weston, FL
@@ -12,33 +12,44 @@
 *              in any way. We appreciate your understanding and fairness.
 *
 ----------------------------------------------------------------------
-File        : GUIConf.h
-Purpose     : Configures abilities, fonts etc.
+File        : GUIDEMO_Messagebox.c
+Purpose     : Messagebox samples
 ----------------------------------------------------------------------
 */
 
+#include <stddef.h>           /* needed for definition of NULL */
+#include "GUI.H"
+#include "GUIDEMO.H"
+#include "LCD_ConfDefaults.h"
+#include "WM.h"
+#include "Dialog.h"
 
-#ifndef GUICONF_H
-#define GUICONF_H
-
-#define GUI_OS                    (1)  /* Compile with multitasking support */
-#define GUI_SUPPORT_TOUCH         (0)  /* Support a touch screen (req. win-manager) */
-#define GUI_SUPPORT_MOUSE         (0)  /* Support a mouse */
-#define GUI_SUPPORT_UNICODE       (0)  /* Support mixed ASCII/UNICODE strings */
-
-#define GUI_DEFAULT_FONT          &GUI_Font6x8
-#define GUI_ALLOC_SIZE            10240  /* Size of dynamic memory ... For WM and memory devices*/
+#if GUI_WINSUPPORT
 
 /*********************************************************************
 *
-*         Configuration of available packages
+*       GUIDEMO_Dialog
+*
+**********************************************************************
 */
 
-#define GUI_WINSUPPORT            1  /* Window manager package available */
-#define GUI_SUPPORT_MEMDEV        0  /* Memory devices available */
-#define GUI_SUPPORT_AA            0  /* Anti aliasing available */
+void GUIDEMO_Messagebox(void) {
+  GUI_COLOR Color;
+  GUIDEMO_ShowIntro("Message boxes",
+                    "Message boxes" "\ncan easily be created");
+  Color = WM_SetDesktopColor(GUI_RED);
+  GUI_MessageBox("Message", "Text", 0);
+  GUI_Delay(1000);
+  GUI_MessageBox("2. Message", "Text", 0);
+  GUI_Delay(1000);
+  WM_SetDesktopColor(Color);
+  GUIDEMO_NotifyStartNext();
 
-#endif  /* Avoid multiple inclusion */
+}
 
+#else
 
+void GUIDEMO_Messagebox(void) {}
+
+#endif /* GUI_SUPPORT_MEMDEV */
 	 	 			 		    	 				 	  			   	 	 	 	 	 	  	  	      	   		 	 	 		  		  	 		 	  	  			     			       	   	 			  		    	 	     	 				  	 					 	 			   	  	  			 				 		 	 	 			     			 

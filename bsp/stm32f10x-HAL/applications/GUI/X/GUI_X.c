@@ -19,6 +19,7 @@ Purpose     : Config / System dependent externals for GUI
 
 #include "GUI.h"
 #include "GUI_X.h"
+#include "rtthread.h"
 
 /*********************************************************************
 *
@@ -38,6 +39,7 @@ volatile int OS_TimeMS;
 */
 
 int GUI_X_GetTime(void) { 
+	OS_TimeMS = rt_tick_get();
   return OS_TimeMS; 
 }
 

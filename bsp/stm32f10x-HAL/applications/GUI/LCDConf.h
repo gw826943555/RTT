@@ -38,7 +38,7 @@ Purpose     : Sample configuration file
 
 #define LCD_FIXEDPALETTE (565) 													/* RGB位数 */
 #define LCD_SWAP_RB (1) 																/* 红蓝反色交换 */
-#define LCD_INIT_CONTROLLER() rt_hw_lcd_init();					/* 底层初始化函数 */
+#define LCD_INIT_CONTROLLER() 											;		/* 底层初始化函数 硬件已自动初始化*/
 
 /*********************************************************************
 *
