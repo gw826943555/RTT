@@ -20,7 +20,7 @@ Purpose     : Sample configuration file
 #ifndef LCDCONF_H
 #define LCDCONF_H
 
-#include "ssd1289.h"
+#include "drv_ssd1289.h"
 
 /*********************************************************************
 *

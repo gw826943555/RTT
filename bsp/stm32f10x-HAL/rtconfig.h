@@ -88,7 +88,7 @@
 /* RT_USING_MTD_NAND is not set */
 /* RT_USING_RTC is not set */
 /* RT_USING_SDIO is not set */
-/* RT_USING_SPI is not set */
+#define RT_USING_SPI
 /* RT_USING_WDT is not set */
 
 /* Using USB */
@@ -235,5 +235,8 @@
 /* RT_USING_UART1 is not set */
 #define RT_USING_UART2
 /* RT_USING_UART3 is not set */
+
+/* RT_USING_SPI1 is not set*/
+#define RT_USING_SPI2
 
 #endif

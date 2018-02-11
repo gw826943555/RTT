@@ -42,8 +42,10 @@ extern void rt_timer_check(void);
  * @deprecated since 1.1.0, this function does not need to be invoked
  * in the system initialization.
  */
+
 void rt_system_tick_init(void)
 {
+
 }
 
 /**

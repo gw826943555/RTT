@@ -1,4 +1,4 @@
-#include "ssd1289.h"
+#include "drv_ssd1289.h"
 // Compatible list:
 // ssd1289
 
@@ -20,15 +20,11 @@
 #include "board.h"
 
 
+
+
 //输出重定向.当不进行重定向时.
 #define printf               rt_kprintf //使用rt_kprintf来输出
 //#define printf(...)                       //无输出
-
-/* LCD is connected to the FSMC_Bank1_NOR/SRAM2 and NE4 is used as ship select signal */
-/* RS <==> F0 */
-//TO DO...
-#define LCD_REG              (*((volatile unsigned short *) 0x6C000000)) /* RS = 0 */
-#define LCD_RAM              (*((volatile unsigned short *) 0x6C000002)) /* RS = 1 */
 	
 SRAM_HandleTypeDef lcd;
 
@@ -124,9 +120,9 @@ static void LCD_FSMCConfig(void)
 		lcd.Init.AsynchronousWait = FSMC_ASYNCHRONOUS_WAIT_DISABLE;
 		lcd.Init.WriteBurst = FSMC_WRITE_BURST_DISABLE;
 
-		Timing.AddressSetupTime      = 0x02; //地址建立时间
+		Timing.AddressSetupTime      = 0x01; //地址建立时间
 		Timing.AddressHoldTime       = 0x00; //地址保持时间
-		Timing.DataSetupTime         = 0x01; //数据建立时间
+		Timing.DataSetupTime         = 0x02; //数据建立时间
 		Timing.BusTurnAroundDuration = 0x00;
 		Timing.CLKDivision           = 0x00;
 		Timing.DataLatency           = 0x00;
@@ -198,17 +194,44 @@ static unsigned short deviceid=0;//设置一个静态变量用来保存LCD的ID
 //    return( rgb );
 //}
 
-static void lcd_SetCursor(unsigned int x,unsigned int y)
-{
-    write_reg(0x004e,x);    /* 0-239 */
-    write_reg(0x004f,y);    /* 0-319 */
-}
+//*********************************刷屏优化函数********************//
+/*设定坐标*/
+//lcd_inline void lcd_set_cursor(unsigned int x,unsigned int y)
+//{
+//		LCD_REG = 0x004e;
+//		LCD_RAM = x;
+//		LCD_REG = 0x004f;
+//		LCD_RAM = y;
+//}
+
+///*读取当前坐标像素*/
+//lcd_inline uint16_t lcd_get_pixel(void)
+//{
+//	LCD_REG = 0x22;
+//	LCD_RAM;					//dummy read
+//	return LCD_RAM;
+//}
+
+///*写当前坐标像素*/
+//lcd_inline void lcd_set_pixel(uint16_t color)
+//{
+//	LCD_REG = 0x22;
+//	LCD_RAM = color;
+//}
+
+//lcd_inline void lcd_draw_hline(uint16_t x, uint16_t endx, uint16_t color)
+//{
+//	LCD_REG = 0x22;
+//	while(x++ <= endx)
+//		LCD_RAM = color;
+//}
+//**************************************结束***************************//
 
 /* 读取指定地址的GRAM */
 static unsigned short lcd_read_gram(unsigned int x,unsigned int y)
 {
     unsigned short temp;
-    lcd_SetCursor(x,y);
+    lcd_set_cursor(x,y);
     rw_data_prepare();
     /* dummy read */
     temp = read_data();
@@ -219,7 +242,7 @@ static unsigned short lcd_read_gram(unsigned int x,unsigned int y)
 static void lcd_clear(unsigned short Color)
 {
     unsigned int index=0;
-    lcd_SetCursor(0,0);
+    lcd_set_cursor(0,0);
     rw_data_prepare();                      /* Prepare to write GRAM */
     for (index=0; index<(LCD_WIDTH*LCD_HEIGHT); index++)
     {
@@ -235,16 +258,16 @@ static void lcd_data_bus_test(void)
 //    write_reg(0x0003,(1<<12)|(1<<5)|(1<<4) | (0<<3) );
 
     /* wirte */
-    lcd_SetCursor(0,0);
+    lcd_set_cursor(0,0);
     rw_data_prepare();
     write_data(0x5555);
 
-    lcd_SetCursor(1,0);
+    lcd_set_cursor(1,0);
     rw_data_prepare();
     write_data(0xAAAA);
 
     /* read */
-    lcd_SetCursor(0,0);
+    lcd_set_cursor(0,0);
     temp1 = lcd_read_gram(0,0);
     temp2 = lcd_read_gram(1,0);
 
@@ -325,7 +348,7 @@ void ssd1289_init(void)
 /*  设置像素点 颜色,X,Y */
 void _ssd1289_lcd_set_pixel(const char* pixel, int x, int y)
 {
-    lcd_SetCursor(x,y);
+    lcd_set_cursor(x,y);
 
     rw_data_prepare();
     write_data(*(rt_uint16_t*)pixel);
@@ -334,10 +357,8 @@ void _ssd1289_lcd_set_pixel(const char* pixel, int x, int y)
 /*  设置像素点 颜色,X,Y */
 void ssd1289_lcd_set_pixel(uint16_t pixel, uint16_t x, uint16_t y)
 {
-    lcd_SetCursor(x,y);
-
-    rw_data_prepare();
-    write_data(pixel);
+    lcd_set_cursor(x,y);
+		lcd_set_pixel(pixel);
 }
 
 /* 获取像素点颜色 */
@@ -358,7 +379,7 @@ void ssd1289_lcd_draw_hline(const char* pixel, int x1, int x2, int y)
     /* [5:4]-ID~ID0 [3]-AM-1垂直-0水平 */
     write_reg(0x0011,0x6030 | (0<<3)); // AM=0 hline
 
-    lcd_SetCursor(x1, y);
+    lcd_set_cursor(x1, y);
     rw_data_prepare(); /* Prepare to write GRAM */
     while (x1 < x2)
     {
@@ -373,7 +394,7 @@ void ssd1289_lcd_draw_vline(const char* pixel, int x, int y1, int y2)
     /* [5:4]-ID~ID0 [3]-AM-1垂直-0水平 */
     write_reg(0x0011,0x6070 | (1<<3)); // AM=0 vline
 
-    lcd_SetCursor(x, y1);
+    lcd_set_cursor(x, y1);
     rw_data_prepare(); /* Prepare to write GRAM */
     while (y1 < y2)
     {
@@ -392,7 +413,7 @@ void ssd1289_lcd_blit_line(const char* pixels, int x, int y, rt_size_t size)
     /* [5:4]-ID~ID0 [3]-AM-1垂直-0水平 */
     write_reg(0x0011,0x6070 | (0<<3)); // AM=0 hline
 
-    lcd_SetCursor(x, y);
+    lcd_set_cursor(x, y);
     rw_data_prepare(); /* Prepare to write GRAM */
     while (size)
     {
@@ -456,7 +477,7 @@ static rt_err_t lcd_control(rt_device_t dev, int cmd, void *args)
 	return RT_EOK;
 }
 
-void rt_hw_lcd_init(void)
+int rt_hw_lcd_init(void)
 {
 	/* register lcd device */
 	_lcd_device.type  = RT_Device_Class_Graphic;
@@ -473,6 +494,7 @@ void rt_hw_lcd_init(void)
     /* register graphic device driver */
 	rt_device_register(&_lcd_device, "lcd",
 		RT_DEVICE_FLAG_RDWR | RT_DEVICE_FLAG_STANDALONE);
+	return 0;
 }
 INIT_BOARD_EXPORT(rt_hw_lcd_init);
 

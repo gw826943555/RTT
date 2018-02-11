@@ -1,10 +1,12 @@
 #include "gui.h"
 #include "rtthread.h"
 #include "GUIDEMO.h"
+#include "drv_xpt2046.h"
 
 void app_main(void* argu)
 {
 	GUI_Init();
+	xpt2046_init("xpt2046", "spi2");
 	while(1)
 	{
 		GUIDEMO_main();

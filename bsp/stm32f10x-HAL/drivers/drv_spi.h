@@ -19,7 +19,7 @@
 #include <rthw.h>
 #include <rtdevice.h>
 
-
+#include "stm32f1xx_HAL.h"
 
 extern int stm32_spi_register_bus(SPI_TypeDef * SPIx,const char * name);
 extern rt_err_t stm32_spi_bus_attach_device(rt_uint32_t pin,const char * bus_name,const char * device_name);

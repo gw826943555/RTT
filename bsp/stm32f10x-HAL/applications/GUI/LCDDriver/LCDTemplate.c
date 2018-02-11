@@ -40,7 +40,7 @@ Version-Date---Author-Explanation
 #include "GUI_Private.h"
 #include "GUIDebug.h"
 
-#include "ssd1289.h"
+#include "drv_ssd1289.h"
 
 #if (LCD_CONTROLLER == -1) \
     && (!defined(WIN32) | defined(LCD_SIMCONTROLLER))
@@ -339,15 +339,17 @@ static void  _DrawBitLine8BPP(int x, int y, U8 const GUI_UNI_PTR * p, int xsize,
 #if (LCD_BITSPERPIXEL > 8)
 static void  DrawBitLine16BPP(int x, int y, U16 const GUI_UNI_PTR * p, int xsize, const LCD_PIXELINDEX * pTrans) {
   LCD_PIXELINDEX pixel;
+	
+	lcd_set_cursor(x, y);
   if ((GUI_Context.DrawMode & LCD_DRAWMODE_TRANS) == 0) {
     if (pTrans) {
       for (; xsize > 0; xsize--, x++, p++) {
         pixel = *p;
-        LCD_L0_SetPixelIndex(x, y, *(pTrans + pixel));
+        lcd_set_pixel(*(pTrans + pixel));
       }
     } else {
       for (;xsize > 0; xsize--, x++, p++) {
-        LCD_L0_SetPixelIndex(x, y, *p);
+        lcd_set_pixel(*p);
       }
     }
   } else {
@@ -355,14 +357,14 @@ static void  DrawBitLine16BPP(int x, int y, U16 const GUI_UNI_PTR * p, int xsize
       for (; xsize > 0; xsize--, x++, p++) {
         pixel = *p;
         if (pixel) {
-          LCD_L0_SetPixelIndex(x, y, *(pTrans + pixel));
+          lcd_set_pixel(*(pTrans + pixel));
         }
       }
     } else {
       for (; xsize > 0; xsize--, x++, p++) {
         pixel = *p;
         if (pixel) {
-          LCD_L0_SetPixelIndex(x, y, pixel);
+          lcd_set_pixel(pixel);
         }
       }
     }
@@ -401,7 +403,8 @@ void LCD_L0_SetPixelIndex(int x, int y, int PixelIndex) {
   /* Write into hardware ... Adapt to your system */
   {
     /* ... */
-		ssd1289_lcd_set_pixel(PixelIndex, x, y);
+		lcd_set_cursor(x, y);
+		lcd_set_pixel(PixelIndex);
   }
 }
 
@@ -429,7 +432,8 @@ unsigned int LCD_L0_GetPixelIndex(int x, int y) {
   /* Read from hardware ... Adapt to your system */
   {
     PixelIndex = 0;/* ... */
-		ssd1289_lcd_get_pixel(&PixelIndex, x, y);
+		lcd_set_cursor(x, y);
+		PixelIndex = lcd_get_pixel();
   }
   return PixelIndex;
 }
@@ -453,9 +457,8 @@ void LCD_L0_DrawHLine  (int x0, int y,  int x1) {
       LCD_L0_XorPixel(x0, y);
     }
   } else {
-    for (; x0 <= x1; x0++) {
-      LCD_L0_SetPixelIndex(x0, y, LCD_COLORINDEX);
-    }
+    lcd_set_cursor(x0, y);
+		lcd_draw_hline(x0, x1, LCD_COLORINDEX);
   }
 }
 
