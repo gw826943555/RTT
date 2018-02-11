@@ -17,6 +17,7 @@
 #include <rthw.h>
 #include <rtthread.h>
 #include "board.h"
+#include "./lvgl/lv_hal/lv_hal_tick.h"
 
 /**
  * @addtogroup STM32
@@ -100,6 +101,7 @@ void SysTick_Handler(void)
 
     HAL_IncTick();
     rt_tick_increase();
+		lv_tick_inc(1);
 
     /* leave interrupt */
     rt_interrupt_leave();

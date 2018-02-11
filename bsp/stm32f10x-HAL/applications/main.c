@@ -14,7 +14,6 @@
 #include <rtthread.h>
 #include "led_app.h"
 #include "idle_app.h"
-#include "gui.h"
 #include "app_main.h"
 
 int main(void)
